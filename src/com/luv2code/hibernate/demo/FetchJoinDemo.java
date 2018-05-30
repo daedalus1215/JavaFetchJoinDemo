@@ -35,30 +35,11 @@ public class FetchJoinDemo {
 			
 			// get the instructor from the db
 			int theId = 8;
+			Course tempCourse = session.get(Course.class, theId);
 			
+			System.out.println("tempCourse: " + tempCourse);
 			
-			ArrayList<Course> courses = retrieveInstructorCourses(session, theId);
-			
-			
-			// recreate the session.
-			session = factory.getCurrentSession();
-			session.beginTransaction();
-			
-			
-			// Grab the instructor
-			Query<Instructor> instructorQuery = 
-					session.createQuery("select i from Instructor i "
-							+ "where i.id=:theInstructorId",
-							Instructor.class);
-			instructorQuery.setParameter("theInstructorId", theId);
-			
-			Instructor theInstructor = instructorQuery.getSingleResult();
-			
-			// Set the instructor's courses
-			theInstructor.setCourses(courses);
-						
-			// Pull the instructor's courses from the instructor
-			System.out.println("The instructor's courses: " + theInstructor.getCourses());
+			System.out.println("reviews: " + tempCourse.getReviews());
 			
 			
 			session.getTransaction().commit();
@@ -69,25 +50,5 @@ public class FetchJoinDemo {
 			session.close();		
 			factory.close();
 		}
-	}
-	
-	
-	private static ArrayList<Course> retrieveInstructorCourses(Session session, int theID) {
-		session.beginTransaction();
-		
-		Query<Course> query = 
-				session.createQuery("select c from Course c "
-						+ "where c.instructor.id=:theInstructorId",
-						Course.class);
-		
-		query.setParameter("theInstructorId", theID);
-		
-		ArrayList<Course> courses = (ArrayList<Course>) query.getResultList();
-		
-		// commit
-		session.getTransaction().commit();
-		session.close();
-		
-		return courses;
 	}
 }
