@@ -27,9 +27,7 @@ public class Review {
 	}
 	
 	
-	public Review(int id, String comment) {
-		super();
-		this.id = id;
+	public Review(String comment) {
 		this.comment = comment;
 	}
 
@@ -47,6 +45,12 @@ public class Review {
 
 	public void setComment(String comment) {
 		this.comment = comment;
+	}
+
+
+	@Override
+	public String toString() {
+		return "Review [id=" + id + ", comment=" + comment + "]";
 	}
 	
 	

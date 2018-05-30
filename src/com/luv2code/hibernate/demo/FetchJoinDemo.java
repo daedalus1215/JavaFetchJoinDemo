@@ -13,6 +13,7 @@ import org.hibernate.cfg.Configuration;
 import com.luv2code.hibernate.demo.entity.Course;
 import com.luv2code.hibernate.demo.entity.Instructor;
 import com.luv2code.hibernate.demo.entity.InstructorDetail;
+import com.luv2code.hibernate.demo.entity.Review;
 
 
 public class FetchJoinDemo {
@@ -23,6 +24,7 @@ public class FetchJoinDemo {
 				.addAnnotatedClass(Instructor.class)
 				.addAnnotatedClass(InstructorDetail.class)
 				.addAnnotatedClass(Course.class)
+				.addAnnotatedClass(Review.class)
 				.buildSessionFactory();
 		
 		Session session = factory.getCurrentSession();
@@ -30,12 +32,16 @@ public class FetchJoinDemo {
 		
 			
 		try {
-			
+			session.beginTransaction();
 			// option 2: Hibernate query with HQL
 			
 			// get the instructor from the db
-			int theId = 8;
+			int theId = 1;
 			Course tempCourse = session.get(Course.class, theId);
+			
+			
+			tempCourse = addNewReviews(session, tempCourse);
+			
 			
 			System.out.println("tempCourse: " + tempCourse);
 			
@@ -50,5 +56,20 @@ public class FetchJoinDemo {
 			session.close();		
 			factory.close();
 		}
+	}
+	
+	private static Course addNewReviews(Session session, Course tempCourse) {
+		
+		Review tempReview = new Review("oh yeah, a comment");
+		session.save(tempReview);
+		tempCourse.add(tempReview);
+		
+		Review tempReview2 = new Review("oh yeah, a comment");
+		session.save(tempReview2);
+		tempCourse.add(tempReview2);
+		
+		session.save(tempCourse);
+		return tempCourse;
+		
 	}
 }
