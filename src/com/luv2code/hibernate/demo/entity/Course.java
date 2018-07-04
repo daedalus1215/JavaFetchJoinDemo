@@ -15,6 +15,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.criteria.Fetch;
 import javax.persistence.JoinTable;
 
 
@@ -46,7 +47,11 @@ public class Course {
 	@JoinColumn(name="course_id") // In this scenario the @JoinColumn tells Hibernate to look at the course_id column in the review table - use this info to help find associated reviews for a course
 	private List<Review> reviews;
 	
-	@ManyToMany
+	@ManyToMany(fetch=FetchType.LAZY, 
+			cascade= {CascadeType.PERSIST, 
+					CascadeType.MERGE, 
+					CascadeType.DETACH, 
+					CascadeType.REFRESH})
 	@JoinTable(
 		name="course_student",
 		joinColumns=@JoinColumn(name="course_id"),
@@ -121,6 +126,24 @@ public class Course {
 		reviews.add(tempReview);
 	}
 
+
+	public List<Student> getStudents() {
+		return students;
+	}
+
+
+	public void setStudents(List<Student> students) {
+		this.students = students;
+	}
+
+	public void addStudent(Student theStudent) {
+		if (students == null) {
+			students = new ArrayList<>();
+		}
+		
+		students.add(theStudent);
+	}
+	
 
 	@Override
 	public String toString() {

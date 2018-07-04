@@ -1,11 +1,5 @@
 package com.luv2code.hibernate.demo;
 
-
-
-import org.hibernate.query.Query;
-
-import java.util.ArrayList;
-
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
@@ -13,10 +7,9 @@ import org.hibernate.cfg.Configuration;
 import com.luv2code.hibernate.demo.entity.Course;
 import com.luv2code.hibernate.demo.entity.Instructor;
 import com.luv2code.hibernate.demo.entity.InstructorDetail;
-import com.luv2code.hibernate.demo.entity.Review;
 
 
-public class DeleteCourseAndReviewsDemo {
+public class CreateCourseAndStudentDemo {
 
 	public static void main(String[] args) {
 		SessionFactory factory = new Configuration()
@@ -24,7 +17,6 @@ public class DeleteCourseAndReviewsDemo {
 				.addAnnotatedClass(Instructor.class)
 				.addAnnotatedClass(InstructorDetail.class)
 				.addAnnotatedClass(Course.class)
-				.addAnnotatedClass(Review.class)
 				.buildSessionFactory();
 		
 		Session session = factory.getCurrentSession();
@@ -34,23 +26,30 @@ public class DeleteCourseAndReviewsDemo {
 		try {
 			session.beginTransaction();
 
-			// get the course
-			int theId = 1;
-			Course tempCourse = session.get(Course.class, theId);
+			// get the instructor from the db
+			int theId = 8;
+			Instructor theInstructor = session.get(Instructor.class, theId);
 			
-			// print the course
-			System.out.println("Deleting the course ....");
-			System.out.println(tempCourse);
-			                    
-			// print the course reviews
-			session.delete(tempCourse);
-			
-			session.getTransaction().commit();
+			// create some courses
+			Course tempCourse  = new Course("Air Guitar - The Ultimate Guide");
+			Course tempCourse1 = new Course("The Pinball Masterclass");							
 
+			// add courses to instructor
+			theInstructor.addCourse(tempCourse1);
+			theInstructor.addCourse(tempCourse);
+			
+			// save the courses
+			session.save(tempCourse1);
+			session.save(tempCourse);
+			
+			// commit
+			session.getTransaction().commit();
+			
 		} catch(Exception exception) {
 			exception.printStackTrace();
 		} finally {			
-			session.close();		
+			session.close();
+			
 			factory.close();
 		}
 	}

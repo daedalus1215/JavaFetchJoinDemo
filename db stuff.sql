@@ -60,7 +60,7 @@ SELECT * FROM hb_student_tracker.instructor_detail;
 SELECT * FROM hb_student_tracker.course;
 SELECT * FROM hb_student_tracker.review;
 SELECT * FROM hb_student_tracker.course_student;
-
+SELECT * FROM hb_student_tracker.student;
 
 
 CREATE TABLE `review` (
@@ -88,11 +88,11 @@ CREATE TABLE `course_student` (
     CONSTRAINT `FK_STUDENT`
     foreign key (`student_id`)
     REFERENCES `student` (`id`)
-)
+);
 
 
 
-
+ALTER TABLE `student` MODIFY COLUMN `id` INT auto_increment;
 
 
 
