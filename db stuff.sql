@@ -42,7 +42,7 @@ CREATE TABLE `course` (
 `title` varchar(128) DEFAULT NULL,
 `instructor_id` int(11) DEFAULT NULL,
 PRIMARY KEY (`id`),
-UNIQUE KEY `TITLE_UNIQUE` (`title`),
+UNIQUE KEY `TITLE_UNIQUE` (`title`)course,
 
 KEY `FK_INSTRUCTOR_idx` (`instructor_id`),
 CONSTRAINT `FK_INSTRUCTOR`
@@ -58,6 +58,8 @@ ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=latin1;
 SELECT * FROM hb_student_tracker.instructor;
 SELECT * FROM hb_student_tracker.instructor_detail;
 SELECT * FROM hb_student_tracker.course;
+SELECT * FROM hb_student_tracker.review;
+SELECT * FROM hb_student_tracker.course_student;
 
 
 
@@ -71,3 +73,28 @@ CREATE TABLE `review` (
     FOREIGN KEY (`course_id`)
     REFERENCES `course` (`id`)
 );
+
+
+
+CREATE TABLE `course_student` (
+	`course_id` int(11) NOT NULL,
+    `student_id` int(11) NOT NULL,
+    
+    PRIMARY KEY (`course_id`, `student_id`),
+	CONSTRAINT `FK_COURSE_05`
+	FOREIGN KEY (`course_id`)
+    REFERENCES `course` (`id`),
+    
+    CONSTRAINT `FK_STUDENT`
+    foreign key (`student_id`)
+    REFERENCES `student` (`id`)
+)
+
+
+
+
+
+
+
+
+

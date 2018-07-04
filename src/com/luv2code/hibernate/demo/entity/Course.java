@@ -11,9 +11,11 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.JoinTable;
 
 
 
@@ -43,6 +45,14 @@ public class Course {
 	@OneToMany(fetch=FetchType.LAZY, cascade=CascadeType.ALL)
 	@JoinColumn(name="course_id") // In this scenario the @JoinColumn tells Hibernate to look at the course_id column in the review table - use this info to help find associated reviews for a course
 	private List<Review> reviews;
+	
+	@ManyToMany
+	@JoinTable(
+		name="course_student",
+		joinColumns=@JoinColumn(name="course_id"),
+		inverseJoinColumns=@JoinColumn(name="student_id")
+	)
+	private List<Student> students;
 	
 	
 	public Course() {
