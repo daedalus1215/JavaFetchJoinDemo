@@ -1,8 +1,13 @@
 package com.luv2code.hibernate.demo.entity;
 
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -21,7 +26,13 @@ public class Student {
 	@Column(name="email")
 	private String email;
 	
-	
+	@ManyToMany
+	@JoinTable(
+		name="course_student",
+		joinColumns=@JoinColumn(name="student_id"),
+		inverseJoinColumns=@JoinColumn(name="course_id")
+	)
+	private List<Course> courses;
 	
 	// need to define a no-arg constructor
 	public Student() {
