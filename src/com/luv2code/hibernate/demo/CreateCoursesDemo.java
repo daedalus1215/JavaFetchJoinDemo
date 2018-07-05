@@ -29,39 +29,47 @@ public class CreateCoursesDemo {
 			
 		try {
 			session.beginTransaction();
-			
-			// get the student mary			
-			int maryStudentId = 8;
 
+			// get the instructor from the db
+//			int theId = 8;
+//			Instructor theInstructor = session.get(Instructor.class, theId);
 			
-			Student maryStudent = session.get(Student.class, maryStudentId);
-			System.out.println("\nMary Student " + maryStudent.toString());
+			// create some courses
+			Course tempCourse1 = new Course("The Pinball Masterclass8");							
+
+			// add some reviews
+			tempCourse1.add(new Review("Great course ... loved it!"));
+			tempCourse1.add(new Review("Cool course, job well done"));
+			tempCourse1.add(new Review("What a dumb course, you are a idiot!"));
 			
 			
-			// create more courses
-			Course javaCourse = new Course("Java Course");
-			Course phpCourse = new Course("Php Course");
-			Course javascriptCourse = new Course("JavaScript Course");
-			Course xmlCourse = new Course("XML Course");
 			
-			// add mary to the courses
-			javaCourse.addStudent(maryStudent);
-			phpCourse.addStudent(maryStudent);
-			javascriptCourse.addStudent(maryStudent);
-			xmlCourse.addStudent(maryStudent);
+			
+			
+			// add courses to instructor
+//			theInstructor.addCourse(tempCourse1);
+			
 			
 			// save the courses
-			session.save(javaCourse);
-			session.save(phpCourse);
-			session.save(javascriptCourse);
-			session.save(xmlCourse);
+			System.out.println("\nSaving the course ...");
+			session.save(tempCourse1);
+			System.out.println("\nSaved the course ..." + tempCourse1);
 			
 			
-			// print out the course stuff
-			System.out.println("\nJavaCourse students " + javaCourse.getStudents());
-			System.out.println("\nPhpCourse students " + phpCourse.getStudents());
-			System.out.println("\nJavaScriptCourse students " + javascriptCourse.getStudents());
-			System.out.println("\nXmlCourse students " + xmlCourse.getStudents());
+			// create the students
+			Student tempStudent1 = new Student("John", "Doe", "john@luv2code.com");
+			Student tempStudent2 = new Student("Mary", "Doe2", "john2@luv2code.com");
+			
+			// add students to the course
+			tempCourse1.addStudent(tempStudent1);
+			tempCourse1.addStudent(tempStudent2);
+			
+			// save the students
+			System.out.println("\nSaving students ...");
+			session.save(tempStudent1);
+			session.save(tempStudent2);
+			System.out.println("\nSaved the students ... " + tempCourse1.getStudents());
+			
 			
 			// commit
 			session.getTransaction().commit();
