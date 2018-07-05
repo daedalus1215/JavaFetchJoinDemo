@@ -12,7 +12,7 @@ ADD COLUMN `date_of_birth` DATETIME NULL AFTER `last_name`;
 
 
 CREATE TABLE `instructor_detail` (
-`id` int(11) PRIMARY KEinstructorY NOT NULL AUTO_INCREMENT,
+`id` int(11) PRIMARY instructor NOT NULL AUTO_INCREMENT,
 `youtube_channel` varchar(28) DEFAULT NULL,
 `hobby` varchar(45) DEFAULT NULL
 );
